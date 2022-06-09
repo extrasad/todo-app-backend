@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+djangorestframework = "*"
+djangorestframework-simplejwt = "*"
+uvicorn = "*"
+gunicorn="*"
+dj-database-url = "*"
+psycopg2-binary = "*"
+argon2-cffi = "*"
+django-cors-headers = "*"
+requests = "*"
+
+[requires]
+python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true
