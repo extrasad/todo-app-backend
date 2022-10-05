@@ -12,18 +12,47 @@ services:
     env_file:
       - .env
     ports:
-      - "8000:8000"
+      - "8080:80"
     command: |
-      sh -c "python manage.py migrate && gunicorn config.asgi:application -b 0.0.0.0:8000 -w 4 -k uvicorn.workers.UvicornWorker"
+      sh -c "python manage.py migrate && gunicorn config.asgi:application -b 0.0.0.0:8080 -w 4 -k uvicorn.workers.UvicornWorker"
 
     depends_on:
-      - 'postgres'
+      - "postgres"
 
   postgres:
     image: postgres:10-alpine
     env_file: .env
+    volumes:
+      - ./todo_backend:/var/lib/postgresql/data
+
+  worker:
+    image: todo.api
+    build:
+      context: .
+    container_name: todo_worker
+    command: ["celery", "-A", "config.celery.app", "worker", "-B", "-l", "info"]
+    links:
+      - rabbit
+    depends_on:
+      rabbit:
+        condition: service_healthy
+      api:
+        condition: service_started
+  rabbit:
+    container_name: todo_rabbit
+    image: "rabbitmq:3.6.1-management"
+    environment:
+    - RABBITMQ_DEFAULT_USER=admin
+    - RABBITMQ_DEFAULT_PASS=Todo15
     ports:
-      - "5432:5432"
+      - 5677:5677
+      - 15672:15672
+    healthcheck:
+      timeout: 5s
+      interval: 5s
+      retries: 5
+      test: ["CMD", "rabbitmqctl", "status"]
+
 
 volumes:
   todo-api:
