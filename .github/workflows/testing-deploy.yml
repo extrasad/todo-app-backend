@@ -10,6 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          SECRET_KEY: ${{ secrets.SECRET_KEY}}
+          DATABASE_URL: ${{ secrets.DATABASE_URL}}
+          DJANGO_SETTINGS_MODULE: ${{ secrets.DJANGO_SETTINGS_MODULE}}
+          API_KEY: ${{ secrets.API_KEY}}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD}}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB}}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER}}
+          MESSAGE_URL: ${{ secrets.MESSAGE_URL}}
+
       - name: Deployment
         uses: appleboy/ssh-action@master
         with:
