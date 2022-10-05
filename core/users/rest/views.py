@@ -45,7 +45,6 @@ class UserViewSet(
         if serializer.is_valid():
             data = serializer.data
             data.update({"subject": "Message from admin", "apiKey": settings.API_KEY})
-            # Todo: Add celery to handle async calls.
             send_email.apply_async([data], countdown=5)
             return Response(status=status.HTTP_200_OK, data={"message": "email sent"})
         else:
