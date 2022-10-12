@@ -52,7 +52,7 @@ DJANGO_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 ]
-THIRD_PARTY_APPS = ["rest_framework", "rest_framework_simplejwt"]
+THIRD_PARTY_APPS = ["rest_framework", "rest_framework_simplejwt", "graphene_django"]
 
 LOCAL_APPS = [
     "core.auths.apps.AuthConfig",

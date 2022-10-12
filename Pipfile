@@ -9,6 +9,7 @@ djangorestframework = "*"
 djangorestframework-simplejwt = "*"
 uvicorn = "*"
 gunicorn="*"
+graphene-django="*"
 dj-database-url = "*"
 psycopg2-binary = "*"
 argon2-cffi = "*"
@@ -17,7 +18,7 @@ django-cors-headers = "*"
 requests = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.9.6"
 
 [pipenv]
 allow_prereleases = true
