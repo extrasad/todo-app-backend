@@ -1,4 +1,5 @@
-FROM python:3.7-alpine3.10
+FROM python:3.9.6-alpine3.14
+
 
 # Default directory for all stages
 WORKDIR /app
