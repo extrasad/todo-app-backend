@@ -174,3 +174,6 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 # Celery
 CELERY_BROKER_URL = os.getenv("BROKER_URL", "amqp://admin:Todo15@rabbit:5672/")
+
+# Graphene
+GRAPHENE = {"SCHEMA": "core.users.graphql.schema.schema"}
