@@ -1,10 +1,13 @@
 from django.conf import settings
 from django.urls import include, path
 from django.views import defaults as default_views
+from django.views.decorators.csrf import csrf_exempt
+
+from graphene_django.views import GraphQLView
 
 API_PREFIX = "v1"
 
-#Routes
+# Routes
 urlpatterns = [
     path(
         f"{API_PREFIX}/auth/",
@@ -12,16 +15,13 @@ urlpatterns = [
     ),
     path(
         f"{API_PREFIX}/todos/",
-        include(
-            ("core.todos.urls", "core.todos"), namespace="todo"
-        ),
+        include(("core.todos.urls", "core.todos"), namespace="todo"),
     ),
     path(
         f"{API_PREFIX}/users/",
-        include(
-            ("core.users.urls", "core.users"), namespace="user"
-        ),
+        include(("core.users.urls", "core.users"), namespace="user"),
     ),
+    path("graphql", csrf_exempt(GraphQLView.as_view(graphiql=True))),
 ]
 
 if settings.DEBUG:
@@ -36,7 +36,11 @@ if settings.DEBUG:
         path(
             "403/",
             default_views.permission_denied,
-            kwargs={"exception": Exception("Sorry, looks like you don't have access to this action.")},
+            kwargs={
+                "exception": Exception(
+                    "Sorry, looks like you don't have access to this action."
+                )
+            },
         ),
         path(
             "404/",
@@ -45,4 +49,3 @@ if settings.DEBUG:
         ),
         path("500/", default_views.server_error),
     ]
-
